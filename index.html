@@ -9,6 +9,7 @@
   </head>
 
   <body>
+    <script src="./src/Scenes//GameScene.js"></script>
     <script src="./src/Scenes/MainScene.js"></script>
     <script src="./src/Scripts/GameManager.js"></script>
     <script>
@@ -18,7 +19,7 @@
         type: Phaser.AUTO,
         width: 800,
         height: 600,
-        scene: [MainScene],
+        scene: [GameScene],
       };
 
       const game = new Phaser.Game(config);

@@ -3,7 +3,9 @@
     "sceneType": "SCENE",
     "settings": {
         "exportClass": true,
-        "preloadPackFiles": [],
+        "preloadPackFiles": [
+            "HomeAssignment/Assets/game_pack_sd.json"
+        ],
         "createMethodName": "editorCreate",
         "sceneKey": "GameScene",
         "compilerOutputLanguage": "TYPE_SCRIPT"
@@ -20,6 +22,167 @@
             "y": 368,
             "scaleX": 0.6,
             "scaleY": 0.6
+        },
+        {
+            "type": "Layer",
+            "id": "562e323a-585d-4742-8888-85468d45f910",
+            "label": "layer_1"
+        },
+        {
+            "type": "Sprite",
+            "id": "d29c1d37-c6f6-42f6-976b-c28ec22ea127",
+            "label": "sprite_1",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 215,
+            "y": 133,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "a8fa2190-f51c-41a3-8333-4c72c0f191b4",
+            "label": "sprite",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 215,
+            "y": 393,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "ad33d1c5-73e9-4082-980f-9d56e71eabac",
+            "label": "sprite_2",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 215,
+            "y": 523,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "b61bb6a3-0dcf-4912-8d3c-42af1ef7e64e",
+            "label": "sprite_3",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 215,
+            "y": 263,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "81a8cc19-f30c-4c30-a43b-b2f1face6020",
+            "label": "sprite_4",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 595,
+            "y": 393,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "03cfdfee-30b5-4cae-ade2-ea3cef3c527a",
+            "label": "sprite_5",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 405,
+            "y": 133,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "368e6019-3388-4410-95c3-1f039507628d",
+            "label": "sprite_6",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 405,
+            "y": 393,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "603dc446-204c-4397-95c9-e2971dec1097",
+            "label": "sprite_7",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 405,
+            "y": 523,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "358564fc-6ed9-49b3-9864-62839242f97f",
+            "label": "sprite_8",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 405,
+            "y": 263,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "a1dfd749-eb5c-48e7-901f-43283ef91fc0",
+            "label": "sprite_9",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 595,
+            "y": 133,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "296a57e6-dc0c-4ed8-b7b5-45854925241b",
+            "label": "sprite_10",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 595,
+            "y": 263,
+            "scaleX": 0.5,
+            "scaleY": 0.5
+        },
+        {
+            "type": "Sprite",
+            "id": "97e2411e-0c1d-44dd-828d-927b2066d24a",
+            "label": "sprite_11",
+            "texture": {
+                "key": "symbols",
+                "frame": "symbol_0.png"
+            },
+            "x": 595,
+            "y": 523,
+            "scaleX": 0.5,
+            "scaleY": 0.5
         }
     ],
     "plainObjects": [],
@@ -28,5 +191,26 @@
         "url": "https://phasereditor2d.com",
         "contentType": "phasereditor2d.core.scene.SceneContentType",
         "version": 5
-    }
+    },
+    "lists": [
+        {
+            "id": "ea9d66e0-9952-44f8-bab0-86151d1ebb83",
+            "label": "list",
+            "objectIds": [
+                "034d1631-9b7f-4e7d-8988-5239c5f9cb00",
+                "97e2411e-0c1d-44dd-828d-927b2066d24a",
+                "296a57e6-dc0c-4ed8-b7b5-45854925241b",
+                "a1dfd749-eb5c-48e7-901f-43283ef91fc0",
+                "358564fc-6ed9-49b3-9864-62839242f97f",
+                "603dc446-204c-4397-95c9-e2971dec1097",
+                "368e6019-3388-4410-95c3-1f039507628d",
+                "03cfdfee-30b5-4cae-ade2-ea3cef3c527a",
+                "81a8cc19-f30c-4c30-a43b-b2f1face6020",
+                "b61bb6a3-0dcf-4912-8d3c-42af1ef7e64e",
+                "ad33d1c5-73e9-4082-980f-9d56e71eabac",
+                "a8fa2190-f51c-41a3-8333-4c72c0f191b4",
+                "d29c1d37-c6f6-42f6-976b-c28ec22ea127"
+            ]
+        }
+    ]
 }
