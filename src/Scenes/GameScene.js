@@ -1,17 +1,23 @@
 "use strict";
-// You can write more code here
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Card = exports.GameScene = void 0;
+// You can write more code here
+console.log('Game Scene Loaded');
 /* START OF COMPILED CODE */
 class GameScene extends Phaser.Scene {
     constructor() {
         super("GameScene");
+        this.cardsArray = [];
+        this.cardCheck = [];
         /* START-USER-CTR-CODE */
         // Write your code here.
         /* END-USER-CTR-CODE */
     }
+    //function for uploading assets file to scene.
     preload() {
         this.load.pack("game_pack_sd", "Assets/game_pack_sd.json");
     }
+    //creating objects for scene
     editorCreate() {
         // bg
         const bg = this.add.image(408, 368, "bg");
@@ -68,7 +74,7 @@ class GameScene extends Phaser.Scene {
         sprite_11.scaleX = 0.5;
         sprite_11.scaleY = 0.5;
         // lists
-        const list = [
+        const cardList = [
             sprite_11,
             sprite_10,
             sprite_9,
@@ -82,17 +88,25 @@ class GameScene extends Phaser.Scene {
             sprite,
             sprite_1,
         ];
-        this.list = list;
-        const cardCheck = [];
+        this.cardsArray = cardList;
+        // this.GM.blah();
         this.events.emit("scene-awake");
+    }
+    getCardsArray() {
+        return this.cardsArray;
     }
     /* START-USER-CODE */
     // Write your code here
     create() {
         this.editorCreate();
+        this.game.events.emit("GameCreated");
+    }
+    update() {
+        // if (this.cardCheck.length == 2) {
+        // }
     }
 }
-exports.default = GameScene;
+exports.GameScene = GameScene;
 /* END OF COMPILED CODE */
 // You can write more code here
 class Card extends Phaser.GameObjects.Sprite {
@@ -104,7 +118,6 @@ class Card extends Phaser.GameObjects.Sprite {
          * @param {number} y - The y-coordinate of the card.
          * @param {string} texture - The key of the texture used for the card.
          * @param {string | number} frame - The initial frame or animation key (if applicable).
-         * @param {string} defaultImage - The default image for hidden card.
          */
         this.hiddenImage = "symbol_0.png";
         this.revealedImage = frame; //saves custom image for use later
@@ -113,13 +126,13 @@ class Card extends Phaser.GameObjects.Sprite {
             useHandCursor: true, // Show a hand cursor on hover
             pixelPerfect: true, // Enable pixel-perfect hit testing
         });
-        this.on('pointerdown', this.clickedCard);
+        this.on("pointerdown", this.clickedCard);
         scene.add.existing(this);
     }
     //UNFINISHED - needs to be added to cardsCheck arr for checkup between 2 cards and removed from cardsCheck arr after checkup.
     clickedCard() {
         this.reveal();
-        console.log('Sprite clicked!', this);
+        console.log("Sprite clicked!", this);
     }
     reveal() {
         if (this.frame.name == this.hiddenImage) {
@@ -130,3 +143,5 @@ class Card extends Phaser.GameObjects.Sprite {
         }
     }
 }
+exports.Card = Card;
+exports.default = GameScene;

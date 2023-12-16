@@ -6,9 +6,11 @@
   "scripts": {
     "build": "tsc --project ./tsconfig.json"
   },
+
   "devDependencies": {
     "phaser": "^3.70.0",
     "tsconfig": "^7.0.0",
     "typescript": "^5.3.3"
   }
 }
+
