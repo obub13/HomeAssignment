@@ -8,6 +8,8 @@ exports.GameManager = void 0;
 *
 */
 console.log('Game Manager Loaded');
+// import MainScene from "../Scenes/MainScene";
+// console.log(MainScene);
 class GameManager {
     constructor(i_Scene) {
         ;

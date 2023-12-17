@@ -1,37 +1,62 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Card extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame) {
-        super(scene, x, y, texture, frame);
-        /**
-         * @param {Scene} scene  - The scene the card will be in.
-         * @param {number} x - The x-coordinate of the card.
-         * @param {number} y - The y-coordinate of the card.
-         * @param {string} texture - The key of the texture used for the card.
-         * @param {string | number} frame - The initial frame or animation key (if applicable).
-         */
-        this.hiddenImage = "symbol_0.png";
-        this.revealedImage = frame; //saves custom image for use later
-        this.setFrame(this.hiddenImage); //sets the default hidden img as frame
-        this.setInteractive({
-            useHandCursor: true, // Show a hand cursor on hover
-            pixelPerfect: true, // Enable pixel-perfect hit testing
-        });
-        this.on("pointerdown", this.clickedCard);
-        scene.add.existing(this);
-    }
-    //UNFINISHED - needs to be added to cardsCheck arr for checkup between 2 cards and removed from cardsCheck arr after checkup.
-    clickedCard() {
-        this.reveal();
-        console.log("Sprite clicked!", this);
-    }
-    reveal() {
-        if (this.frame.name == this.hiddenImage) {
-            this.setFrame(this.revealedImage);
-        }
-        else {
-            this.setFrame(this.hiddenImage);
-        }
-    }
-}
-exports.default = Card;
+// import { Scene } from "phaser";
+// class Card extends Phaser.GameObjects.Sprite {
+//   /**
+//    * @param {Scene} scene  - The scene the card will be in.
+//    * @param {number} x - The x-coordinate of the card.
+//    * @param {number} y - The y-coordinate of the card.
+//    * @param {string} texture - The key of the texture used for the card.
+//    * @param {string | number} frame - The initial frame or animation key (if applicable).
+//    * @param {string} type - Type of card to be checked.
+//    */
+//   hiddenImage: string | number = "symbol_0.png"; //default hidden image
+//   revealedImage: string | number;
+//   private interactive: boolean = true; //flag for interactions such as click events
+//   constructor(
+//     scene: Scene,
+//     x: number,
+//     y: number,
+//     texture: string,
+//     frame: string | number
+//     // type: string
+//   ) {
+//     super(scene, x, y, texture, frame);
+//     this.revealedImage = frame; //saves custom image for use later
+//     // this.type = type;
+//     this.setFrame(this.hiddenImage); //sets the default hidden img as frame
+//     this.setInteractive({
+//       useHandCursor: true, // Show a hand cursor on hover
+//       pixelPerfect: true, // Enable pixel-perfect hit testing
+//     });
+//     scene.add.existing(this);
+//   }
+//   //reveals image of card + limiting card object with user interaction()
+//   reveal(): void {
+//     if (this.frame.name == this.hiddenImage) {
+//       this.setFrame(this.revealedImage);
+//       this.setClickable(false); // Disable interactivity when revealed
+//     } else {
+//       this.setFrame(this.hiddenImage);
+//       this.setClickable(true); // Enable interactivity when hidden
+//     }
+//   }
+//   // setType(type:string):void{
+//   //   this.type = type;
+//   // }
+//   setRevealedImage(image: string | number): void {
+//     this.revealedImage = image;
+//   }
+//   setClickable(value: boolean): void {
+//     this.interactive = value;
+//   }
+//   isClickable(): boolean {
+//     return this.interactive;
+//   }
+//   getRevealedImage(): string | number {
+//     return this.revealedImage;
+//   }
+//   // getType(): string {
+//   //   return this.type;
+//   // }
+// }
+// export = Card;

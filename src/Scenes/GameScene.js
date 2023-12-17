@@ -4,13 +4,17 @@ exports.Card = exports.GameScene = void 0;
 // You can write more code here
 console.log("Game Scene Loaded");
 /* START OF COMPILED CODE */
+// console.log(MainScene, ' main scene logged in GAMESCENE');
 class GameScene extends Phaser.Scene {
+    // matchedScene: Scene;
     constructor() {
         super("GameScene");
-        this.cardsArray = []; //array of cards object
-        this.cardsCheck = []; //array of selected cards on click
-        this.cardsImages = []; //array of card images to randomize 
+        this.cardsArray = [];
+        this.cardsCheck = [];
+        this.MatchedCards = [];
+        this.cardsImages = []; //array of card images to randomize
         this.canClick = true;
+        // this.scene = MainScene;
         /* START-USER-CTR-CODE */
         // Write your code here.
         /* END-USER-CTR-CODE */
@@ -28,51 +32,75 @@ class GameScene extends Phaser.Scene {
         // layer_1
         this.add.layer();
         // sprite_1
-        const sprite_1 = new Card(this, 215, 133, "symbols", "symbol_6.png");
+        const sprite_1 = new Card(this, 215, 133, "symbols", "symbol_6.png"
+        // "candy"
+        );
         sprite_1.scaleX = 0.5;
         sprite_1.scaleY = 0.5;
         // sprite
-        const sprite = new Card(this, 215, 393, "symbols", "symbol_6.png");
+        const sprite = new Card(this, 215, 393, "symbols", "symbol_6.png"
+        //  "candy"
+        );
         sprite.scaleX = 0.5;
         sprite.scaleY = 0.5;
         // sprite_2
-        const sprite_2 = new Card(this, 215, 523, "symbols", "symbol_5.png");
+        const sprite_2 = new Card(this, 215, 523, "symbols", "symbol_5.png"
+        // "ghost"
+        );
         sprite_2.scaleX = 0.5;
         sprite_2.scaleY = 0.5;
         // sprite_3
-        const sprite_3 = new Card(this, 215, 263, "symbols", "symbol_5.png");
+        const sprite_3 = new Card(this, 215, 263, "symbols", "symbol_5.png"
+        // "ghost"
+        );
         sprite_3.scaleX = 0.5;
         sprite_3.scaleY = 0.5;
         // sprite_4
-        const sprite_4 = new Card(this, 595, 393, "symbols", "symbol_4.png");
+        const sprite_4 = new Card(this, 595, 393, "symbols", "symbol_4.png"
+        // "potion"
+        );
         sprite_4.scaleX = 0.5;
         sprite_4.scaleY = 0.5;
         // sprite_5
-        const sprite_5 = new Card(this, 405, 133, "symbols", "symbol_4.png");
+        const sprite_5 = new Card(this, 405, 133, "symbols", "symbol_4.png"
+        // "potion"
+        );
         sprite_5.scaleX = 0.5;
         sprite_5.scaleY = 0.5;
         // sprite_6
-        const sprite_6 = new Card(this, 405, 393, "symbols", "symbol_3.png");
+        const sprite_6 = new Card(this, 405, 393, "symbols", "symbol_3.png"
+        // "hat"
+        );
         sprite_6.scaleX = 0.5;
         sprite_6.scaleY = 0.5;
         // sprite_7
-        const sprite_7 = new Card(this, 405, 523, "symbols", "symbol_3.png");
+        const sprite_7 = new Card(this, 405, 523, "symbols", "symbol_3.png"
+        // "hat"
+        );
         sprite_7.scaleX = 0.5;
         sprite_7.scaleY = 0.5;
         // sprite_8
-        const sprite_8 = new Card(this, 405, 263, "symbols", "symbol_2.png");
+        const sprite_8 = new Card(this, 405, 263, "symbols", "symbol_2.png"
+        // "soup"
+        );
         sprite_8.scaleX = 0.5;
         sprite_8.scaleY = 0.5;
         // sprite_9
-        const sprite_9 = new Card(this, 595, 133, "symbols", "symbol_2.png");
+        const sprite_9 = new Card(this, 595, 133, "symbols", "symbol_2.png"
+        // "soup"
+        );
         sprite_9.scaleX = 0.5;
         sprite_9.scaleY = 0.5;
         // sprite_10
-        const sprite_10 = new Card(this, 595, 263, "symbols", "symbol_1.png");
+        const sprite_10 = new Card(this, 595, 263, "symbols", "symbol_1.png"
+        // "broom"
+        );
         sprite_10.scaleX = 0.5;
         sprite_10.scaleY = 0.5;
         // sprite_11
-        const sprite_11 = new Card(this, 595, 523, "symbols", "symbol_1.png");
+        const sprite_11 = new Card(this, 595, 523, "symbols", "symbol_1.png"
+        // "broom"
+        );
         sprite_11.scaleX = 0.5;
         sprite_11.scaleY = 0.5;
         // lists
@@ -136,15 +164,25 @@ class GameScene extends Phaser.Scene {
     checkCardsMatch() {
         const [card1, card2] = this.cardsCheck;
         if (card1.getRevealedImage() === card2.getRevealedImage()) {
-            console.log("CARDS MATCHED");
-            card1.setInteractive(false);
-            card2.setInteractive(false);
-            this.cardsCheck = [];
-            this.canClick = true;
+            this.addToMatchedCards(card1, card2);
+            if (this.MatchedCards.length === 12) {
+                this.showPopup(["Winner winner chicken dinner!"]);
+            }
+            else {
+                console.log("CARDS MATCHED");
+                this.showPopup(["Well done!", "Great!", "Good job!"]);
+                this.cardsCheck = [];
+                this.canClick = true;
+            }
         }
         else {
             // If the cards don't match, delay for a short time before hiding them
-            this.time.delayedCall(1000, () => {
+            this.showPopup([
+                "Unlucky..",
+                "Almost, try again!",
+                "Better luck next time..",
+            ]);
+            this.time.delayedCall(2000, () => {
                 card1.reveal();
                 card2.reveal();
                 this.cardsCheck = [];
@@ -152,8 +190,49 @@ class GameScene extends Phaser.Scene {
             });
         }
     }
-    getCardsArray() {
-        return this.cardsArray;
+    addToMatchedCards(card1, card2) {
+        this.MatchedCards.push(card1);
+        this.MatchedCards.push(card2);
+    }
+    //pausing cards clickable state when showing popup message
+    pauseCards() {
+        this.cardsArray.forEach((card) => {
+            card.setClickable(false);
+        });
+    }
+    //Setting cards back to clickable state expect cards that have been matched.
+    resumeCards() {
+        this.cardsArray.forEach((card) => {
+            card.setClickable(true);
+        });
+        this.MatchedCards.forEach((card) => {
+            card.setClickable(false);
+        });
+    }
+    //Popup message function + handler of cards clickable state(pausecard/resumecards)
+    showPopup(stringArr) {
+        this.pauseCards();
+        let text = stringArr[Math.floor(Math.random() * stringArr.length)];
+        // Background rectangle
+        const rect = this.add
+            .rectangle(400, 300, 400, 200, 0x000000, 0.8)
+            .setOrigin(0.5, 0.5)
+            .setInteractive();
+        // Pop-up text
+        const message = this.add
+            .text(400, 300, text, {
+            fontSize: "24px",
+            wordWrap: { width: 380, useAdvancedWrap: true },
+        })
+            .setOrigin(0.5, 0.5)
+            .setInteractive();
+        // Close the pop-up when clicked
+        this.time.delayedCall(2000, () => {
+            rect.destroy();
+            message.destroy();
+            // Continue your game logic here if needed
+            this.resumeCards();
+        });
     }
     create() {
         this.editorCreate();
@@ -165,18 +244,13 @@ exports.GameScene = GameScene;
 /* END OF COMPILED CODE */
 // You can write more code here
 class Card extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame) {
+    constructor(scene, x, y, texture, frame
+    // type: string
+    ) {
         super(scene, x, y, texture, frame);
-        /**
-         * @param {Scene} scene  - The scene the card will be in.
-         * @param {number} x - The x-coordinate of the card.
-         * @param {number} y - The y-coordinate of the card.
-         * @param {string} texture - The key of the texture used for the card.
-         * @param {string | number} frame - The initial frame or animation key (if applicable).
-         * @param {string} type - Type of card to be checked.
-         */
         this.hiddenImage = "symbol_0.png"; //default hidden image
         this.interactive = true; //flag for interactions such as click events
+        this.cardID = Card.id++;
         this.revealedImage = frame; //saves custom image for use later
         // this.type = type;
         this.setFrame(this.hiddenImage); //sets the default hidden img as frame
@@ -197,9 +271,9 @@ class Card extends Phaser.GameObjects.Sprite {
             this.setClickable(true); // Enable interactivity when hidden
         }
     }
-    // setType(type:string):void{
-    //   this.type = type;
-    // }
+    getID() {
+        return this.cardID;
+    }
     setRevealedImage(image) {
         this.revealedImage = image;
     }
@@ -214,4 +288,13 @@ class Card extends Phaser.GameObjects.Sprite {
     }
 }
 exports.Card = Card;
+/**
+ * @param {Scene} scene  - The scene the card will be in.
+ * @param {number} x - The x-coordinate of the card.
+ * @param {number} y - The y-coordinate of the card.
+ * @param {string} texture - The key of the texture used for the card.
+ * @param {string | number} frame - The initial frame or animation key (if applicable).
+ * @param {string} type - Type of card to be checked.
+ */
+Card.id = 0;
 exports.default = GameScene;
