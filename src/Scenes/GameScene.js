@@ -4,9 +4,7 @@ exports.Card = exports.GameScene = void 0;
 // You can write more code here
 console.log("Game Scene Loaded");
 /* START OF COMPILED CODE */
-// console.log(MainScene, ' main scene logged in GAMESCENE');
 class GameScene extends Phaser.Scene {
-    // matchedScene: Scene;
     constructor() {
         super("GameScene");
         this.cardsArray = [];
@@ -14,7 +12,7 @@ class GameScene extends Phaser.Scene {
         this.MatchedCards = [];
         this.cardsImages = []; //array of card images to randomize
         this.canClick = true;
-        // this.scene = MainScene;
+        this.turns = 2;
         /* START-USER-CTR-CODE */
         // Write your code here.
         /* END-USER-CTR-CODE */
@@ -32,75 +30,51 @@ class GameScene extends Phaser.Scene {
         // layer_1
         this.add.layer();
         // sprite_1
-        const sprite_1 = new Card(this, 215, 133, "symbols", "symbol_6.png"
-        // "candy"
-        );
+        const sprite_1 = new Card(this, 215, 133, "symbols", "symbol_6.png");
         sprite_1.scaleX = 0.5;
         sprite_1.scaleY = 0.5;
         // sprite
-        const sprite = new Card(this, 215, 393, "symbols", "symbol_6.png"
-        //  "candy"
-        );
+        const sprite = new Card(this, 215, 393, "symbols", "symbol_6.png");
         sprite.scaleX = 0.5;
         sprite.scaleY = 0.5;
         // sprite_2
-        const sprite_2 = new Card(this, 215, 523, "symbols", "symbol_5.png"
-        // "ghost"
-        );
+        const sprite_2 = new Card(this, 215, 523, "symbols", "symbol_5.png");
         sprite_2.scaleX = 0.5;
         sprite_2.scaleY = 0.5;
         // sprite_3
-        const sprite_3 = new Card(this, 215, 263, "symbols", "symbol_5.png"
-        // "ghost"
-        );
+        const sprite_3 = new Card(this, 215, 263, "symbols", "symbol_5.png");
         sprite_3.scaleX = 0.5;
         sprite_3.scaleY = 0.5;
         // sprite_4
-        const sprite_4 = new Card(this, 595, 393, "symbols", "symbol_4.png"
-        // "potion"
-        );
+        const sprite_4 = new Card(this, 595, 393, "symbols", "symbol_4.png");
         sprite_4.scaleX = 0.5;
         sprite_4.scaleY = 0.5;
         // sprite_5
-        const sprite_5 = new Card(this, 405, 133, "symbols", "symbol_4.png"
-        // "potion"
-        );
+        const sprite_5 = new Card(this, 405, 133, "symbols", "symbol_4.png");
         sprite_5.scaleX = 0.5;
         sprite_5.scaleY = 0.5;
         // sprite_6
-        const sprite_6 = new Card(this, 405, 393, "symbols", "symbol_3.png"
-        // "hat"
-        );
+        const sprite_6 = new Card(this, 405, 393, "symbols", "symbol_3.png");
         sprite_6.scaleX = 0.5;
         sprite_6.scaleY = 0.5;
         // sprite_7
-        const sprite_7 = new Card(this, 405, 523, "symbols", "symbol_3.png"
-        // "hat"
-        );
+        const sprite_7 = new Card(this, 405, 523, "symbols", "symbol_3.png");
         sprite_7.scaleX = 0.5;
         sprite_7.scaleY = 0.5;
         // sprite_8
-        const sprite_8 = new Card(this, 405, 263, "symbols", "symbol_2.png"
-        // "soup"
-        );
+        const sprite_8 = new Card(this, 405, 263, "symbols", "symbol_2.png");
         sprite_8.scaleX = 0.5;
         sprite_8.scaleY = 0.5;
         // sprite_9
-        const sprite_9 = new Card(this, 595, 133, "symbols", "symbol_2.png"
-        // "soup"
-        );
+        const sprite_9 = new Card(this, 595, 133, "symbols", "symbol_2.png");
         sprite_9.scaleX = 0.5;
         sprite_9.scaleY = 0.5;
         // sprite_10
-        const sprite_10 = new Card(this, 595, 263, "symbols", "symbol_1.png"
-        // "broom"
-        );
+        const sprite_10 = new Card(this, 595, 263, "symbols", "symbol_1.png");
         sprite_10.scaleX = 0.5;
         sprite_10.scaleY = 0.5;
         // sprite_11
-        const sprite_11 = new Card(this, 595, 523, "symbols", "symbol_1.png"
-        // "broom"
-        );
+        const sprite_11 = new Card(this, 595, 523, "symbols", "symbol_1.png");
         sprite_11.scaleX = 0.5;
         sprite_11.scaleY = 0.5;
         // lists
@@ -138,6 +112,9 @@ class GameScene extends Phaser.Scene {
     }
     /* START-USER-CODE */
     // Write your code here
+    // updateTurnsText(): void {
+    //   this.turnsText.setText(`Turns: ${this.turns}`);
+    // }
     randomizeCardImages(cardsArray) {
         const symbols = [
             "symbol_1.png",
@@ -160,13 +137,13 @@ class GameScene extends Phaser.Scene {
             card.setRevealedImage(allSymbols[index]);
         });
     }
-    //checks both cards to see if matched
+    //Checks cards to see if match + popup messages regarding status of match
     checkCardsMatch() {
         const [card1, card2] = this.cardsCheck;
         if (card1.getRevealedImage() === card2.getRevealedImage()) {
             this.addToMatchedCards(card1, card2);
             if (this.MatchedCards.length === 12) {
-                this.showPopup(["Winner winner chicken dinner!"]);
+                this.showPopup(["You Win!"]);
             }
             else {
                 console.log("CARDS MATCHED");
@@ -177,17 +154,23 @@ class GameScene extends Phaser.Scene {
         }
         else {
             // If the cards don't match, delay for a short time before hiding them
-            this.showPopup([
-                "Unlucky..",
-                "Almost, try again!",
-                "Better luck next time..",
-            ]);
-            this.time.delayedCall(2000, () => {
-                card1.reveal();
-                card2.reveal();
-                this.cardsCheck = [];
-                this.canClick = true;
-            });
+            this.turns--;
+            if (this.turns == 0) {
+                this.showPopup(["Game Over!"]);
+            }
+            else {
+                this.showPopup([
+                    "Unlucky..",
+                    "Almost, try again!",
+                    "Better luck next time..",
+                ]);
+                this.time.delayedCall(2000, () => {
+                    card1.reveal();
+                    card2.reveal();
+                    this.cardsCheck = [];
+                    this.canClick = true;
+                });
+            }
         }
     }
     addToMatchedCards(card1, card2) {
@@ -226,19 +209,64 @@ class GameScene extends Phaser.Scene {
         })
             .setOrigin(0.5, 0.5)
             .setInteractive();
-        // Close the pop-up when clicked
-        this.time.delayedCall(2000, () => {
-            rect.destroy();
-            message.destroy();
-            // Continue your game logic here if needed
-            this.resumeCards();
+        if (text === "Game Over!" || text === "You Win!") {
+            const startButton = this.add
+                .text(400, 450, "Reset Game")
+                .setOrigin(0.5)
+                .setPadding(10)
+                .setStyle({ backgroundColor: "#111" })
+                .setInteractive({ useHandCursor: true })
+                .on("pointerdown", () => {
+                this.restartGame();
+                rect.destroy();
+                message.destroy();
+                startButton.destroy();
+            })
+                .on("pointerover", () => startButton.setStyle({ fill: "#f39c12" }))
+                .on("pointerout", () => startButton.setStyle({ fill: "#FFF" }));
+        }
+        else {
+            // Close the pop-up when clicked
+            this.time.delayedCall(2000, () => {
+                rect.destroy();
+                message.destroy();
+                // Continue your game logic here if needed
+                this.resumeCards();
+            });
+        }
+    }
+    restartGame() {
+        this.cardsArray.forEach((card) => {
+            card.setFrame("symbol_0.png");
         });
+        this.MatchedCards = [];
+        this.cardsCheck = [];
+        this.turns = 6;
+        this.randomizeCardImages(this.cardsArray);
+        this.resumeCards();
+        this.canClick = true;
     }
     create() {
         this.editorCreate();
         this.game.events.emit("GameCreated");
     }
-    update() { }
+    update() {
+        this.add.text(10, 10, `Turns left: ${this.turns}`, {
+            fontFamily: "Arial, sans-serif",
+            fontSize: "20px",
+            color: "#ffcc00",
+            stroke: "#000000",
+            strokeThickness: 4,
+            shadow: {
+                offsetX: 1,
+                offsetY: 1,
+                color: "#000000",
+                blur: 4,
+                stroke: true,
+                fill: true,
+            },
+        });
+    }
 }
 exports.GameScene = GameScene;
 /* END OF COMPILED CODE */
