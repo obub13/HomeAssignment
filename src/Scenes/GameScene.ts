@@ -10,7 +10,7 @@ export class GameScene extends Phaser.Scene {
   public MatchedCards: Card[] = [];
   public cardsImages: string[] = []; //array of card images to randomize
   private canClick: boolean = true;
-  public turns: number = 2;
+  public turns: number = 2;  //NEEDS TO BE CHANGED TO 6 (currently 2 for testing purposes)
 
   constructor() {
     super("GameScene");
