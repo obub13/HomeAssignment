@@ -138,7 +138,6 @@ export class GameScene extends Phaser.Scene {
     this.cardsArray.forEach((card) => {
       card.on("pointerdown", () => {
         if (this.canClick && card.isClickable()) {
-          console.log(card);
           card.reveal();
           this.cardsToCheck.push(card);
           if (this.cardsToCheck.length === 2) {
@@ -190,7 +189,6 @@ export class GameScene extends Phaser.Scene {
       if (this.matchedCards.length === 12) {
         this.showPopup(["You Win!"]);
       } else {
-        console.log("CARDS MATCHED");
         this.showPopup(["Well done!", "Great!", "Good job!"]);
         this.cardsToCheck = [];
         this.canClick = true;
