@@ -2,11 +2,6 @@
 
 Welcome to the Memory Matching Game! This is a simple memory card game created using the Phaser game framework.
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Setup](#setup)
-
 ## Introduction
 
 Describe your project in a few sentences. What is the Memory Matching Game about? What inspired you to create it?
