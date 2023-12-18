@@ -5,12 +5,7 @@ Welcome to the Memory Matching Game! This is a simple memory card game created u
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Features](#features)
 - [Setup](#setup)
-- [How to Play](#how-to-play)
-- [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
