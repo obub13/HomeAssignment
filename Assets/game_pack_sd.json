@@ -13,6 +13,12 @@
                 "key": "bitmap_font"
             },
             {
+                "textureURL": "Assets/sprite_fonts/desyrel.png",
+                "fontDataURL": "Assets/sprite_fonts/desyrel.xml",
+                "type": "desyrel",
+                "key": "desyrel"
+            },
+            {
                 "type": "multiatlas",
                 "url": "Assets/symbols/symbols.json",
                 "path": "Assets/symbols",

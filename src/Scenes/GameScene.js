@@ -4,15 +4,34 @@ exports.Card = exports.GameScene = void 0;
 // You can write more code here
 console.log("Game Scene Loaded");
 /* START OF COMPILED CODE */
+/**
+ *
+ */
 class GameScene extends Phaser.Scene {
     constructor() {
         super("GameScene");
         this.cardsArray = [];
-        this.cardsCheck = [];
-        this.MatchedCards = [];
-        this.cardsImages = []; //array of card images to randomize
+        this.cardsToCheck = [];
+        this.matchedCards = [];
+        this.cardsImages = [];
         this.canClick = true;
-        this.turns = 2;
+        this.numberOfTurns = 6;
+        this.timerDuration = 30;
+        this.textStyle = {
+            fontFamily: "desyrel", //custom font added to game_pack_sd
+            fontSize: "20px",
+            color: "#ffcc00",
+            stroke: "#000000",
+            strokeThickness: 4,
+            shadow: {
+                offsetX: 1,
+                offsetY: 1,
+                color: "#000000",
+                blur: 4,
+                stroke: true,
+                fill: true,
+            },
+        };
         /* START-USER-CTR-CODE */
         // Write your code here.
         /* END-USER-CTR-CODE */
@@ -93,15 +112,15 @@ class GameScene extends Phaser.Scene {
             sprite_1,
         ];
         this.cardsArray = cardList;
-        // Call this function passing your cardsArray
+        //after creating the array of cards, activating randomizer.
         this.randomizeCardImages(this.cardsArray);
         this.cardsArray.forEach((card) => {
             card.on("pointerdown", () => {
                 if (this.canClick && card.isClickable()) {
                     console.log(card);
                     card.reveal();
-                    this.cardsCheck.push(card);
-                    if (this.cardsCheck.length === 2) {
+                    this.cardsToCheck.push(card);
+                    if (this.cardsToCheck.length === 2) {
                         this.canClick = false; // limits the user from clicking on multiple cards(2+)
                         this.checkCardsMatch();
                     }
@@ -112,9 +131,6 @@ class GameScene extends Phaser.Scene {
     }
     /* START-USER-CODE */
     // Write your code here
-    // updateTurnsText(): void {
-    //   this.turnsText.setText(`Turns: ${this.turns}`);
-    // }
     randomizeCardImages(cardsArray) {
         const symbols = [
             "symbol_1.png",
@@ -124,7 +140,7 @@ class GameScene extends Phaser.Scene {
             "symbol_5.png",
             "symbol_6.png",
         ];
-        // Duplicate symbols to form pairs
+        // duplicates symbols in order to create 2 cards of each
         const allSymbols = [...symbols, ...symbols];
         // Shuffle the symbols
         for (let i = allSymbols.length - 1; i > 0; i--) {
@@ -137,25 +153,24 @@ class GameScene extends Phaser.Scene {
             card.setRevealedImage(allSymbols[index]);
         });
     }
-    //Checks cards to see if match + popup messages regarding status of match
+    //checks cards to see if match + timed popup messages regarding status of matched cards
     checkCardsMatch() {
-        const [card1, card2] = this.cardsCheck;
+        const [card1, card2] = this.cardsToCheck;
         if (card1.getRevealedImage() === card2.getRevealedImage()) {
             this.addToMatchedCards(card1, card2);
-            if (this.MatchedCards.length === 12) {
+            if (this.matchedCards.length === 12) {
                 this.showPopup(["You Win!"]);
             }
             else {
                 console.log("CARDS MATCHED");
                 this.showPopup(["Well done!", "Great!", "Good job!"]);
-                this.cardsCheck = [];
+                this.cardsToCheck = [];
                 this.canClick = true;
             }
         }
         else {
-            // If the cards don't match, delay for a short time before hiding them
-            this.turns--;
-            if (this.turns == 0) {
+            this.numberOfTurns--;
+            if (this.numberOfTurns == 0) {
                 this.showPopup(["Game Over!"]);
             }
             else {
@@ -167,15 +182,15 @@ class GameScene extends Phaser.Scene {
                 this.time.delayedCall(2000, () => {
                     card1.reveal();
                     card2.reveal();
-                    this.cardsCheck = [];
+                    this.cardsToCheck = [];
                     this.canClick = true;
                 });
             }
         }
     }
     addToMatchedCards(card1, card2) {
-        this.MatchedCards.push(card1);
-        this.MatchedCards.push(card2);
+        this.matchedCards.push(card1);
+        this.matchedCards.push(card2);
     }
     //pausing cards clickable state when showing popup message
     pauseCards() {
@@ -183,18 +198,24 @@ class GameScene extends Phaser.Scene {
             card.setClickable(false);
         });
     }
-    //Setting cards back to clickable state expect cards that have been matched.
+    //setting cards back to clickable state expect cards that have been matched
     resumeCards() {
         this.cardsArray.forEach((card) => {
             card.setClickable(true);
         });
-        this.MatchedCards.forEach((card) => {
+        this.matchedCards.forEach((card) => {
             card.setClickable(false);
         });
     }
-    //Popup message function + handler of cards clickable state(pausecard/resumecards)
+    //displays popup message + handler of game clickable/timer state(pausecard/resumecards)
+    /**
+     * @param stringArr - array of releveant messages(["Good job","Well Done","..."]/["Wrong try again","..."])
+     */
     showPopup(stringArr) {
         this.pauseCards();
+        if (this.timerEvent) {
+            this.timerEvent.paused = true;
+        }
         let text = stringArr[Math.floor(Math.random() * stringArr.length)];
         // Background rectangle
         const rect = this.add
@@ -202,85 +223,105 @@ class GameScene extends Phaser.Scene {
             .setOrigin(0.5, 0.5)
             .setInteractive();
         // Pop-up text
-        const message = this.add
-            .text(400, 300, text, {
-            fontSize: "24px",
-            wordWrap: { width: 380, useAdvancedWrap: true },
-        })
+        const message = this.add.text(400, 300, text, this.textStyle)
             .setOrigin(0.5, 0.5)
             .setInteractive();
         if (text === "Game Over!" || text === "You Win!") {
-            const startButton = this.add
-                .text(400, 450, "Reset Game")
+            const resetButton = this.add.text(400, 450, "Reset Game", this.textStyle)
                 .setOrigin(0.5)
                 .setPadding(10)
                 .setStyle({ backgroundColor: "#111" })
                 .setInteractive({ useHandCursor: true })
                 .on("pointerdown", () => {
-                this.restartGame();
+                this.resetGame();
                 rect.destroy();
                 message.destroy();
-                startButton.destroy();
+                resetButton.destroy();
             })
-                .on("pointerover", () => startButton.setStyle({ fill: "#f39c12" }))
-                .on("pointerout", () => startButton.setStyle({ fill: "#FFF" }));
+                .on("pointerover", () => resetButton.setStyle({ fill: "#f39c12" }))
+                .on("pointerout", () => resetButton.setStyle({ fill: "#FFF" }));
         }
         else {
-            // Close the pop-up when clicked
             this.time.delayedCall(2000, () => {
                 rect.destroy();
                 message.destroy();
                 // Continue your game logic here if needed
                 this.resumeCards();
+                if (this.timerEvent) {
+                    this.timerEvent.paused = false;
+                }
             });
         }
     }
-    restartGame() {
+    //restart game variables(this.scene.restart() causes issues)
+    resetGame() {
+        var _a;
         this.cardsArray.forEach((card) => {
             card.setFrame("symbol_0.png");
         });
-        this.MatchedCards = [];
-        this.cardsCheck = [];
-        this.turns = 6;
+        this.matchedCards = [];
+        this.cardsToCheck = [];
+        this.numberOfTurns = 6;
+        this.timerDuration = 30;
         this.randomizeCardImages(this.cardsArray);
         this.resumeCards();
         this.canClick = true;
+        if (this.timerEvent) {
+            this.timerEvent.remove();
+            (_a = this.timerDurationText) === null || _a === void 0 ? void 0 : _a.destroy();
+        }
+        this.displayTimer();
     }
+    displaynumberOfTurns() {
+        this.numberOfTurnsText = this.add.text(10, 10, `Turns left: ${this.numberOfTurns}`, this.textStyle);
+    }
+    //displaying timer timerDuration on screen + updating every second
+    displayTimer() {
+        this.timerDurationText = this.add.text(680, 10, `Time left: ${this.timerDuration}`, this.textStyle);
+        this.timerEvent = this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                var _a;
+                if (this.timerDuration > 0) {
+                    this.timerDuration--;
+                    if (this.timerDurationText) {
+                        this.timerDurationText.setText(`Time left: ${this.timerDuration}`);
+                    }
+                }
+                else {
+                    (_a = this.timerEvent) === null || _a === void 0 ? void 0 : _a.remove();
+                    this.showPopup(["Game Over!"]);
+                }
+            },
+            callbackScope: this,
+            loop: true,
+        });
+    }
+    //creates the whole scene with objects
     create() {
         this.editorCreate();
+        if (this.timerDuration > -1) {
+            this.displayTimer();
+        }
         this.game.events.emit("GameCreated");
     }
+    //update funciton to rerender
     update() {
-        this.add.text(10, 10, `Turns left: ${this.turns}`, {
-            fontFamily: "Arial, sans-serif",
-            fontSize: "20px",
-            color: "#ffcc00",
-            stroke: "#000000",
-            strokeThickness: 4,
-            shadow: {
-                offsetX: 1,
-                offsetY: 1,
-                color: "#000000",
-                blur: 4,
-                stroke: true,
-                fill: true,
-            },
-        });
+        var _a;
+        (_a = this.numberOfTurnsText) === null || _a === void 0 ? void 0 : _a.destroy();
+        this.displaynumberOfTurns();
     }
 }
 exports.GameScene = GameScene;
 /* END OF COMPILED CODE */
 // You can write more code here
 class Card extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame
-    // type: string
-    ) {
+    constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         this.hiddenImage = "symbol_0.png"; //default hidden image
         this.interactive = true; //flag for interactions such as click events
         this.cardID = Card.id++;
         this.revealedImage = frame; //saves custom image for use later
-        // this.type = type;
         this.setFrame(this.hiddenImage); //sets the default hidden img as frame
         this.setInteractive({
             useHandCursor: true, // Show a hand cursor on hover
@@ -292,11 +333,11 @@ class Card extends Phaser.GameObjects.Sprite {
     reveal() {
         if (this.frame.name == this.hiddenImage) {
             this.setFrame(this.revealedImage);
-            this.setClickable(false); // Disable interactivity when revealed
+            this.setClickable(false);
         }
         else {
             this.setFrame(this.hiddenImage);
-            this.setClickable(true); // Enable interactivity when hidden
+            this.setClickable(true);
         }
     }
     getID() {
@@ -321,8 +362,8 @@ exports.Card = Card;
  * @param {number} x - The x-coordinate of the card.
  * @param {number} y - The y-coordinate of the card.
  * @param {string} texture - The key of the texture used for the card.
- * @param {string | number} frame - The initial frame or animation key (if applicable).
+ * @param {string | number} frame - The initial frame.
  * @param {string} type - Type of card to be checked.
  */
-Card.id = 0;
+Card.id = 0; //static ID number for class
 exports.default = GameScene;
