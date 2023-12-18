@@ -1,23 +1,21 @@
 # Memory Matching Game
 
-Welcome to the Memory Matching Game! This is a simple memory card game created using the Phaser game framework.
+This is a simple memory card game created using the Phaser game framework with Typescript.
 
 ## Introduction
 
-Describe your project in a few sentences. What is the Memory Matching Game about? What inspired you to create it?
+Home Assignment by a gaming company, learning how to use Phaser game engine and Typescript coding langauge.
 
 ## Features
 
-Highlight the key features of your project:
-
 - Memory card matching gameplay
 - Timer and turns tracking
-- Interactive and responsive design
+
 
 ## Setup
 
-Clone or copy the repository, start the project in visual studio code and isntall the dependencies by running "npm install" in terminal.
+Clone or copy the repository, start the project in visual studio code and install the dependencies by running "npm install" in terminal.
 
-#Start game 
+## Start game 
 
 Simply start playing activating the LiveServer feature or by running the command "npx http-server" in terminal.
